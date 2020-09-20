@@ -1,0 +1,273 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_RANGE DIALOGEX 0, 0, 244, 180
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Character Ranges"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_RANGE_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | 
+                    LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,6,114,144
+    GROUPBOX        "Range",IDC_STATIC,126,6,114,108
+    EDITTEXT        IDC_RANGE_MIN,132,18,36,12,ES_RIGHT
+    EDITTEXT        IDC_RANGE_MAX,180,18,36,12,ES_RIGHT
+    CTEXT           "-",IDC_STATIC,168,18,12,12,SS_CENTERIMAGE
+    PUSHBUTTON      "Add New",IDC_RANGE_ADD,186,54,48,12
+    PUSHBUTTON      "Set",IDC_RANGE_SET,132,54,48,12
+    PUSHBUTTON      "Remove",IDC_RANGE_REMOVE,186,72,48,12
+    LTEXT           "# for hexadecimal",IDC_STATIC,132,36,90,12
+    PUSHBUTTON      "Move Up",IDC_RANGE_MOVE_UP,132,72,48,12
+    PUSHBUTTON      "Move Down",IDC_RANGE_MOVE_DOWN,132,90,48,12
+    PUSHBUTTON      "Load...",IDC_RANGE_LOAD,186,138,48,14
+    PUSHBUTTON      "Save As...",IDC_RANGE_SAVE,186,120,48,14
+    DEFPUSHBUTTON   "OK",IDOK,132,156,48,14
+    PUSHBUTTON      "Cancel",IDCANCEL,186,156,48,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_RANGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 235
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 173
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_RPANEL DIALOGEX 0, 0, 248, 548
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Choose...",IDC_PANEL_CHOOSE,12,30,48,12
+    LTEXT           "Microsoft Sans Serif",IDC_PANEL_TYPEFACE,12,18,102,8
+    PUSHBUTTON      "From File...",IDC_PANEL_FROM_FILE,66,30,48,12,NOT 
+                    WS_VISIBLE
+    EDITTEXT        IDC_PANEL_SIZE,30,103,24,12,ES_RIGHT | ES_NUMBER
+    LTEXT           "Size:",IDC_STATIC,12,103,16,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PANEL_SIZE_UNITS,72,103,42,42,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_PANEL_SIZE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,54,103,11,12
+    GROUPBOX        "Typeface",IDC_STATIC,6,6,114,78
+    GROUPBOX        "Appearance",IDC_STATIC,6,90,114,78
+    CONTROL         "Bold",IDC_PANEL_BOLD,"Button",BS_AUTOCHECKBOX,12,138,29,
+                    10
+    CONTROL         "Italic",IDC_PANEL_ITALIC,"Button",BS_AUTOCHECKBOX,12,
+                    151,31,10
+    CONTROL         "Underline",IDC_PANEL_UNDERLINE,"Button",BS_AUTOCHECKBOX,
+                    54,138,46,10
+    CONTROL         "Strike out",IDC_PANEL_STRIKE_OUT,"Button",
+                    BS_AUTOCHECKBOX,54,151,47,10
+    COMBOBOX        IDC_PANEL_CHARSET,54,49,60,120,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Charset:",IDC_STATIC,12,49,30,12,SS_CENTERIMAGE
+    GROUPBOX        "Texture",IDC_STATIC,6,258,114,90
+    COMBOBOX        IDC_PANEL_TEXTURE_WIDTH,30,271,36,95,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Size:",IDC_STATIC,12,270,18,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PANEL_TEXTURE_HEIGHT,78,271,36,95,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    CTEXT           "x",IDC_STATIC,66,270,12,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PANEL_GRID_WIDTH,30,289,36,71,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Grid:",IDC_STATIC,12,288,18,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PANEL_GRID_HEIGHT,78,289,36,71,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    CTEXT           "x",IDC_STATIC,66,288,12,12,SS_CENTERIMAGE
+    CONTROL         "Compact width",IDC_PANEL_COMPACT_WIDTH,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,306,63,10
+    EDITTEXT        IDC_PANEL_WIDTH,78,119,24,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "",IDC_PANEL_WIDTH_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,102,
+                    119,11,12
+    GROUPBOX        "Character range",IDC_STATIC,6,174,114,78
+    CONTROL         "Skip non-printable",IDC_PANEL_SKIP_NONPRINTABLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,222,73,10
+    EDITTEXT        IDC_PANEL_RANGE_MAX,78,186,36,12,ES_RIGHT
+    PUSHBUTTON      "Specify...",IDC_PANEL_SPECIFY_RANGE,12,204,48,12
+    PUSHBUTTON      "Update",IDC_PANEL_UPDATE,66,414,48,14
+    CONTROL         "Set max (#hex):",IDC_PANEL_SET_RANGE_MAX,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,186,66,12
+    CONTROL         "Unicode",IDC_PANEL_UNICODE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,66,41,10
+    CONTROL         "Mark overlaps (debug)",IDC_PANEL_MARK_OVERLAPS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,318,88,10
+    CONTROL         "Draw grid",IDC_PANEL_DRAW_GRID,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,330,48,10
+    GROUPBOX        "Character placement",IDC_STATIC,6,354,114,54
+    CONTROL         "Strip bearings (testing)",IDC_PANEL_STRIP_BEARINGS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,366,89,10
+    CONTROL         "Adjust baseline",IDC_PANEL_ADJUST_BASELINE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,390,60,10
+    EDITTEXT        IDC_PANEL_BASELINE,78,390,24,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "",IDC_PANEL_BASELINE_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,102,
+                    390,11,12
+    CONTROL         "Adjust width",IDC_PANEL_ADJUST_WIDTH,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,119,56,10
+    CONTROL         "BBox align (no baseline)",IDC_PANEL_BBOX_ALIGN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,378,102,10
+    PUSHBUTTON      "Save...",IDC_PANEL_SAVE,12,414,48,14
+    CONTROL         "No default char",IDC_PANEL_NO_DEFAULT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,234,65,10
+    CONTROL         "Do not clip",IDC_PANEL_DRAW_GRID2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,66,330,48,10
+    GROUPBOX        "Info",IDC_STATIC,6,432,114,90
+    LTEXT           "Static",IDC_PANEL_INFO_TEXT,12,444,102,72
+    PUSHBUTTON      "Default pangam",IDC_PANEL_PANGAM,12,528,102,9
+END
+
+IDD_DLG_CHOOSEFONT DIALOGEX 0, 0, 274, 193
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Available Fonts"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,162,168,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,216,168,50,14
+    CONTROL         "",IDC_FONT_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | 
+                    LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | 
+                    WS_TABSTOP,6,6,150,150
+    PUSHBUTTON      "Add Font...",IDC_FONT_ADD,168,6,50,14
+    LTEXT           "",IDC_STATIC,168,36,102,48
+    EDITTEXT        IDC_FONT_SAMPLE,162,102,102,54,ES_MULTILINE
+    LTEXT           "Sample:",IDC_STATIC,162,90,26,8
+    CONTROL         "Auto install",IDC_FONT_ALLOW_INSTALL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,168,24,51,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_RPANEL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 241
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 541
+    END
+
+    IDD_DLG_CHOOSEFONT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 186
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral (Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
