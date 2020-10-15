@@ -13,6 +13,7 @@ enum SizeUnits
 extern char g_szTypeface[MAX_PATH];
 extern int g_eCharSet;
 extern bool g_bUnicode;
+extern bool g_bAntiAliasing;
 extern bool g_bSetMaxRange;
 extern int g_iMaxRange;
 extern bool g_bSkipNonPrintable;

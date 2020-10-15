@@ -14,6 +14,7 @@ char g_szTypeface[MAX_PATH] = "Microsoft Sans Serif";
 //bool g_bSystemFont = true;
 int g_eCharSet = DEFAULT_CHARSET;
 bool g_bUnicode;
+bool g_bAntiAliasing = false;
 bool g_bSetMaxRange = true;
 int g_iMaxRange = 0x10000;
 // TODO: range table
@@ -285,6 +286,7 @@ void CRPanelDlg::Load(void)
 	SendDlgItemMessage(m_hWnd, IDC_PANEL_CHARSET, CB_SETCURSEL, (WPARAM)FindCharSet(g_eCharSet), NULL);
 	SendDlgItemMessage(m_hWnd, IDC_PANEL_UNICODE, BM_SETCHECK, (WPARAM)g_bUnicode, NULL);
 	CheckUnicode();
+	SendDlgItemMessage(m_hWnd, IDC_PANEL_ANTIALIASING, BM_SETCHECK, (WPARAM)g_bAntiAliasing, NULL);
 	SendDlgItemMessage(m_hWnd, IDC_PANEL_SET_RANGE_MAX, BM_SETCHECK, (WPARAM)g_bSetMaxRange, NULL);
 	CheckSetMaxRange();
 	sprintf(buffer, "#%.4X", g_iMaxRange);
@@ -349,6 +351,7 @@ void CRPanelDlg::Save(void)
 	SendDlgItemMessage(m_hWnd, IDC_PANEL_TYPEFACE, WM_GETTEXT, (WPARAM)sizeof(g_szTypeface), (LPARAM)g_szTypeface);
 	g_eCharSet = GetValidCharSet((int)SendDlgItemMessage(m_hWnd, IDC_PANEL_CHARSET, CB_GETCURSEL, NULL, NULL));
 	g_bUnicode = (SendDlgItemMessage(m_hWnd, IDC_PANEL_UNICODE, BM_GETCHECK, NULL, NULL) != 0);
+	g_bAntiAliasing = (SendDlgItemMessage(m_hWnd, IDC_PANEL_ANTIALIASING, BM_GETCHECK, NULL, NULL) != 0);
 	g_bSetMaxRange = (SendDlgItemMessage(m_hWnd, IDC_PANEL_SET_RANGE_MAX, BM_GETCHECK, NULL, NULL) != 0);
 	SendDlgItemMessage(m_hWnd, IDC_PANEL_RANGE_MAX, WM_GETTEXT, (WPARAM)sizeof(buffer), (LPARAM)buffer);
 	g_iMaxRange = GetValidRange(buffer);

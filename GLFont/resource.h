@@ -43,6 +43,8 @@
 #define IDC_FONT_ADD                    1037
 #define IDC_PANEL_DRAW_GRID2            1037
 #define IDC_FONT_SAMPLE                 1038
+#define IDC_PANEL_UNICODE2              1038
+#define IDC_PANEL_ANTIALIASING          1038
 #define IDC_FONT_ALLOW_INSTALL          1039
 #define IDC_RANGE_LIST                  1040
 #define IDC_RANGE_MIN                   1041

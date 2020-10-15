@@ -55,6 +55,7 @@ typedef struct font_settings_s
 	bool bUnderline;
 	bool bStrikeOut;
 	int eCharSet;
+	bool bAntiAliasing;
 	char szTypeface[MAX_PATH];
 } font_settings_t;
 font_settings_t g_fsCurrent;
@@ -240,7 +241,8 @@ bool IsFontChanged(font_settings_t& fs)
 		fs.bItalic == g_bItalic &&
 		fs.bUnderline == g_bUnderline &&
 		fs.bStrikeOut == g_bStrikeOut &&
-		fs.eCharSet == g_eCharSet );
+		fs.eCharSet == g_eCharSet &&
+		fs.bAntiAliasing == g_bAntiAliasing );
 }
 
 
@@ -256,6 +258,7 @@ void UpdateFontSettings(font_settings_t& fs)
 	fs.bUnderline = g_bUnderline;
 	fs.bStrikeOut = g_bStrikeOut;
 	fs.eCharSet = g_eCharSet;
+	fs.bAntiAliasing = g_bAntiAliasing;
 }
 
 
@@ -295,7 +298,7 @@ void UpdateFont(void)
 			iHeight = g_iFontSize;
 			break;
 		}
-		
+
 		g_hFont = CreateFont(
 			iHeight,g_bAdjustWidth?g_iFontWidth:0,
 			0,0,
@@ -305,7 +308,7 @@ void UpdateFont(void)
 			g_bStrikeOut? TRUE: FALSE,
 			g_eCharSet,
 			OUT_TT_PRECIS,CLIP_DEFAULT_PRECIS,
-			DEFAULT_QUALITY,DEFAULT_PITCH,
+			g_bAntiAliasing ? DEFAULT_QUALITY : NONANTIALIASED_QUALITY,DEFAULT_PITCH,
 			g_szTypeface
 			);
 		if (g_hFont == NULL)
@@ -333,6 +336,15 @@ void ProcessFont(void)
 	{
 		return;
 	}
+
+	//// fix for the ClearType being set in the system
+	//UINT eSm;
+	//SystemParametersInfo( SPI_GETFONTSMOOTHINGTYPE, 0, &eSm, 0 );
+	//if ( eSm == FE_FONTSMOOTHINGCLEARTYPE )
+	//{
+	//	UINT eNewSm = FE_FONTSMOOTHINGSTANDARD;
+	//	SystemParametersInfo( SPI_SETFONTSMOOTHINGTYPE, 0, &eNewSm, 0 );
+	//}
 
 	// clear bg
 	SelectObject(g_hDCOutput, g_hBackgroundBrush);
@@ -699,6 +711,12 @@ void ProcessFont(void)
 
 	free(pkp);
 	free(pgs);
+
+	//if ( eSm == FE_FONTSMOOTHINGCLEARTYPE )
+	//{
+	//	//UINT eNewSm = FE_FONTSMOOTHINGSTANDARD;
+	//	SystemParametersInfo( SPI_SETFONTSMOOTHINGTYPE, 0, &eSm, 0 );
+	//}
 }
 
 
@@ -1013,7 +1031,7 @@ void SaveGLFont(char* pszFileName)
 }
 
 
-void SaveBitmap(char* pszFileName)
+void SaveBitmap(char* pszFileName, bool bWhatYouSee, bool bAlpha)
 {
 	FILE* stream;
 	BITMAPFILEHEADER bmf;
@@ -1045,7 +1063,41 @@ void SaveBitmap(char* pszFileName)
 		fwrite(&bmi, sizeof(BITMAPINFOHEADER), 1, stream);
 
 		fseek(stream, iHeaderSize, SEEK_SET);
-		fwrite(g_data, iDataSize, 1, stream);
+
+		if (bWhatYouSee)
+		{
+			fwrite(g_data, iDataSize, 1, stream);
+		}
+		else
+		{
+			BYTE* buffer = (BYTE*)malloc(g_iBitmapWidth*4);
+			int x, y;
+			for (y = 0; y < g_iBitmapHeight; y++)
+			{
+				BYTE* scan = &g_data[g_iBitmapWidth*4*y];
+				for (x = 0; x < g_iBitmapWidth; x++)
+				{
+					BYTE* src_pixel = &scan[x*4];
+					BYTE* dst_pixel = &buffer[x*4];
+					if (bAlpha)
+					{
+						dst_pixel[0] = 0;
+						dst_pixel[1] = 0;
+						dst_pixel[2] = 0;
+						dst_pixel[3] = src_pixel[1];
+					}
+					else
+					{
+						dst_pixel[0] = src_pixel[1];
+						dst_pixel[1] = src_pixel[1];
+						dst_pixel[2] = src_pixel[1];
+						dst_pixel[3] = 0xFF;
+					}
+				}
+				fwrite(buffer, g_iBitmapWidth*4, 1, stream);
+			}
+			free(buffer);
+		}
 
 		fclose(stream);
 	}
@@ -1138,7 +1190,9 @@ enum OutputTypes
 {
 	OUT_CHAR_MAPPING = 0,
 	OUT_GLFONT,
+	OUT_BITMAP_WHAT_YOU_SEE,
 	OUT_BITMAP,
+	OUT_BITMAP_ALPHA,
 	OUT_TGA8,
 	OUT_TGA32_COLOR,
 	OUT_TGA32_ALPHA,
@@ -1159,9 +1213,17 @@ void SaveTexture(void)
 			SetDefaultExt(g_ofn.lpstrFile, ".glf");
 			SaveGLFont(g_ofn.lpstrFile);
 			break;
+		case OUT_BITMAP_WHAT_YOU_SEE:
+			SetDefaultExt(g_ofn.lpstrFile, ".bmp");
+			SaveBitmap(g_ofn.lpstrFile, true, false);
+			break;
 		case OUT_BITMAP:
 			SetDefaultExt(g_ofn.lpstrFile, ".bmp");
-			SaveBitmap(g_ofn.lpstrFile);
+			SaveBitmap(g_ofn.lpstrFile, false, false);
+			break;
+		case OUT_BITMAP_ALPHA:
+			SetDefaultExt(g_ofn.lpstrFile, ".bmp");
+			SaveBitmap(g_ofn.lpstrFile, false, true);
 			break;
 		case OUT_TGA8:
 			SetDefaultExt(g_ofn.lpstrFile, ".tga");
@@ -1189,12 +1251,15 @@ void WM_Create(HWND hWnd, WPARAM wParam, LPARAM lParam)
 		// don't break the order
 		"Character Mapping (*.txt)\0*.txt;\0"
 		"Binary GLFont (*.glf)\0*.glf;\0"
-		"Raw Bitmap 32-bit (*.bmp)\0*.bmp;\0"
+		"Raw bitmap 32-bit (What you see) (*.bmp)\0*.bmp;\0"
+		"Bitmap 32-bit (color) (*.bmp)\0*.bmp;\0"
+		"Bitmap 32-bit (alpha) (*.bmp)\0*.bmp;\0"
 		"TGA 8-bit (*.tga)\0*.tga;\0"
 		"TGA 32-bit (color) (*.tga)\0*.tga;\0"
 		"TGA 32-bit (alpha) (*.tga)\0*.tga;\0";
 	g_ofn.lpstrFile = (char*)malloc(MAX_PATH);
 	g_ofn.lpstrFile[0] = '\0';
+	g_ofn.lpstrDefExt = "*.txt";
 	g_ofn.nMaxFile = MAX_PATH;
 	g_ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
 
@@ -1219,7 +1284,7 @@ void WM_Create(HWND hWnd, WPARAM wParam, LPARAM lParam)
 		FALSE,
 		DEFAULT_CHARSET,
         OUT_TT_ONLY_PRECIS,CLIP_DEFAULT_PRECIS,
-        DEFAULT_QUALITY,DEFAULT_PITCH,
+		g_bAntiAliasing ? DEFAULT_QUALITY : NONANTIALIASED_QUALITY,DEFAULT_PITCH,
 		"Microsoft Sans Serif"
 		);
 	
@@ -1351,6 +1416,7 @@ void InitSettings(void)
 	g_pConfig->AddValue("Typeface",			VAR_SZ,		g_szTypeface);
 	g_pConfig->AddValue("CharSet",			VAR_INT,	&g_eCharSet);
 	g_pConfig->AddValue("Unicode",			VAR_BOOL,	&g_bUnicode);
+	g_pConfig->AddValue("AntiAliasing",		VAR_BOOL,	&g_bAntiAliasing);
 	g_pConfig->AddValue("SetMaxRange",		VAR_BOOL,	&g_bSetMaxRange);
 	g_pConfig->AddValue("MaxRange",			VAR_INT,	&g_iMaxRange);
 	g_pConfig->AddValue("SkipNonPrintable", VAR_BOOL,	&g_bSkipNonPrintable);
